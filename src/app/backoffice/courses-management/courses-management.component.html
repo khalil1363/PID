@@ -3,7 +3,7 @@
   <div class="page-header">
     <div class="header-content">
       <h1>Course Management</h1>
-      <p class="header-subtitle">Create, edit, and manage all courses on the platform</p>
+      <p class="header-subtitle">Manage all courses on the platform</p>
     </div>
     <div class="header-actions">
       <button mat-raised-button class="action-btn primary" (click)="addCourse()">
@@ -13,131 +13,30 @@
     </div>
   </div>
 
-  <!-- Stats Cards -->
-  <div class="stats-row">
-    <div class="mini-stat-card">
-      <div class="mini-stat-icon blue">
-        <mat-icon>school</mat-icon>
-      </div>
-      <div class="mini-stat-info">
-        <span class="mini-stat-value">{{ courses.length }}</span>
-        <span class="mini-stat-label">Total Courses</span>
-      </div>
-    </div>
-    <div class="mini-stat-card">
-      <div class="mini-stat-icon green">
-        <mat-icon>check_circle</mat-icon>
-      </div>
-      <div class="mini-stat-info">
-        <span class="mini-stat-value">{{ publishedCount }}</span>
-        <span class="mini-stat-label">Published</span>
-      </div>
-    </div>
-    <div class="mini-stat-card">
-      <div class="mini-stat-icon orange">
-        <mat-icon>edit_note</mat-icon>
-      </div>
-      <div class="mini-stat-info">
-        <span class="mini-stat-value">{{ draftCount }}</span>
-        <span class="mini-stat-label">Drafts</span>
-      </div>
-    </div>
-    <div class="mini-stat-card">
-      <div class="mini-stat-icon purple">
-        <mat-icon>people</mat-icon>
-      </div>
-      <div class="mini-stat-info">
-        <span class="mini-stat-value">{{ totalStudents | number }}</span>
-        <span class="mini-stat-label">Total Students</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Filters Section -->
-  <div class="filters-section">
-    <div class="search-container">
-      <mat-icon class="search-icon">search</mat-icon>
-      <input 
-        type="text" 
-        placeholder="Search courses by title or instructor..." 
-        class="search-input"
-        [(ngModel)]="searchTerm"
-        (input)="onSearch()">
-    </div>
-    
-    <div class="filter-controls">
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Category</mat-label>
-        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="onCategoryChange()">
-          <mat-option value="all">All Categories</mat-option>
-          <mat-option value="Web Development">Web Development</mat-option>
-          <mat-option value="Programming">Programming</mat-option>
-          <mat-option value="Backend">Backend</mat-option>
-          <mat-option value="Data Science">Data Science</mat-option>
-        </mat-select>
-      </mat-form-field>
-      
-      <mat-form-field appearance="outline" class="filter-field">
-        <mat-label>Status</mat-label>
-        <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onStatusChange()">
-          <mat-option value="all">All Status</mat-option>
-          <mat-option value="published">Published</mat-option>
-          <mat-option value="draft">Draft</mat-option>
-          <mat-option value="archived">Archived</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
-
   <!-- Courses Grid -->
   <div class="courses-grid">
-    <div class="course-card" *ngFor="let course of filteredCourses">
+    <div class="course-card" *ngFor="let course of courses">
       <div class="course-image">
         <img [src]="course.image" [alt]="course.title">
-        <span [class]="getStatusClass(course.status)">{{ course.status }}</span>
+        <div class="course-actions">
+          <button mat-icon-button class="action-icon edit" (click)="editCourse(course)" matTooltip="Edit">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="action-icon delete" (click)="deleteCourse(course)" matTooltip="Delete">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </div>
       <div class="course-content">
-        <div class="course-header">
-          <h3>{{ course.title }}</h3>
-          <div class="course-rating">
-            <mat-icon>star</mat-icon>
-            <span>{{ course.rating }}</span>
-          </div>
-        </div>
-        <p class="course-instructor">
-          <mat-icon>person</mat-icon>
-          {{ course.instructor }}
-        </p>
-        <div class="course-meta">
-          <span class="category">{{ course.category }}</span>
-          <span class="students">
-            <mat-icon>people</mat-icon>
-            {{ course.students | number }}
-          </span>
-        </div>
-        <div class="course-footer">
-          <span class="price">${{ course.price }}</span>
-          <div class="course-actions">
-            <button mat-icon-button class="action-icon view" (click)="viewCourse(course)" matTooltip="View">
-              <mat-icon>visibility</mat-icon>
-            </button>
-            <button mat-icon-button class="action-icon edit" (click)="editCourse(course)" matTooltip="Edit">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button class="action-icon delete" (click)="deleteCourse(course)" matTooltip="Delete">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </div>
+        <h3>{{ course.title }}</h3>
       </div>
     </div>
   </div>
 
   <!-- Empty State -->
-  <div class="empty-state" *ngIf="filteredCourses.length === 0">
+  <div class="empty-state" *ngIf="courses.length === 0">
     <mat-icon>school</mat-icon>
     <h3>No courses found</h3>
-    <p>Try adjusting your search or filter criteria</p>
     <button mat-raised-button class="action-btn primary" (click)="addCourse()">
       <mat-icon>add_circle</mat-icon>
       Create Your First Course

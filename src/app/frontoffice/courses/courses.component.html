@@ -3,116 +3,19 @@
   <div class="courses-header">
     <div class="header-content">
       <h1>My Courses</h1>
-      <p class="header-subtitle">Continue your learning journey with personalized courses</p>
+      <p class="header-subtitle">Continue your learning journey</p>
     </div>
-    <div class="header-actions">
-      <div class="search-container">
-        <mat-icon class="search-icon">search</mat-icon>
-        <input 
-          type="text" 
-          placeholder="Search courses..." 
-          class="search-input">
-      </div>
-      <button mat-raised-button class="browse-btn primary">
-        <mat-icon>add</mat-icon>
-        <span>Browse New Courses</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Filter Tabs -->
-  <div class="filter-tabs">
-    <button class="tab-btn active" (click)="filterCourses('all')">
-      <span>All Courses</span>
-      <span class="tab-count">{{ courses.length }}</span>
-    </button>
-    <button class="tab-btn" (click)="filterCourses('in-progress')">
-      <span>In Progress</span>
-      <span class="tab-count">8</span>
-    </button>
-    <button class="tab-btn" (click)="filterCourses('completed')">
-      <span>Completed</span>
-      <span class="tab-count">4</span>
-    </button>
-    <button class="tab-btn" (click)="filterCourses('bookmarked')">
-      <span>Bookmarked</span>
-      <span class="tab-count">3</span>
-    </button>
   </div>
 
   <!-- Courses Grid -->
   <div class="courses-grid">
-    <div class="course-card" *ngFor="let course of courses">
+    <div class="course-card" *ngFor="let course of courses" (click)="viewDetails(course)">
       <div class="course-image">
         <img [src]="course.image" [alt]="course.title">
-        <div class="course-overlay">
-          <div class="course-progress">
-            <div class="progress-bar">
-              <div class="progress-fill" [style.width.%]="course.progress"></div>
-            </div>
-            <span class="progress-text">{{ course.progress }}% Complete</span>
-          </div>
-          <div class="course-badge" [class]="getCourseBadgeClass(course.progress)">
-            {{ getCourseBadgeText(course.progress) }}
-          </div>
-        </div>
       </div>
       <div class="course-content">
-        <div class="course-header">
-          <h3>{{ course.title }}</h3>
-          <div class="course-rating">
-            <mat-icon>star</mat-icon>
-            <span>4.8</span>
-          </div>
-        </div>
-        <p class="course-description">{{ course.description }}</p>
-        <div class="course-meta">
-          <div class="meta-item">
-            <mat-icon>person</mat-icon>
-            <span>{{ course.instructor }}</span>
-          </div>
-          <div class="meta-item">
-            <mat-icon>schedule</mat-icon>
-            <span>{{ course.duration }}</span>
-          </div>
-          <div class="meta-item">
-            <mat-icon>bar_chart</mat-icon>
-            <span>{{ course.level }}</span>
-          </div>
-        </div>
-        <div class="course-stats">
-          <div class="stat">
-            <span class="stat-number">{{ course.lessons }}</span>
-            <span class="stat-label">Lessons</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">{{ course.hours }}</span>
-            <span class="stat-label">Hours</span>
-          </div>
-          <div class="stat">
-            <span class="stat-number">{{ course.students }}</span>
-            <span class="stat-label">Students</span>
-          </div>
-        </div>
-        <div class="course-actions">
-          <button mat-button class="continue-btn primary" (click)="continueCourse(course)">
-            <mat-icon>play_arrow</mat-icon>
-            Continue
-          </button>
-          <button mat-button class="details-btn" (click)="viewDetails(course)">
-            <mat-icon>info</mat-icon>
-            Details
-          </button>
-        </div>
+        <h3>{{ course.title }}</h3>
       </div>
     </div>
-  </div>
-
-  <!-- Load More -->
-  <div class="load-more-section">
-    <button mat-stroked-button class="load-more-btn">
-      <mat-icon>expand_more</mat-icon>
-      Load More Courses
-    </button>
   </div>
 </div>
